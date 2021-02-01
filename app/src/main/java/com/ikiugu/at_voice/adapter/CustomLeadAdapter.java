@@ -33,9 +33,9 @@ public class CustomLeadAdapter extends RecyclerView.Adapter<CustomLeadAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Customer customer = customers.get(position);
-        holder.lead_name.setText(customer.getName());
-        holder.lead_phone_number.setText(customer.getPhoneNumber());
-        holder.lead_comment.setText(customer.getComment());
+        holder.lead_name.setText(customer.getName() != null ? customer.getName() : "Doe");
+        holder.lead_phone_number.setText(customer.getPhoneNumber() != null ? customer.getPhoneNumber() : "None");
+        holder.lead_comment.setText(customer.getComment() != null ? customer.getComment() : "None");
 
     }
 

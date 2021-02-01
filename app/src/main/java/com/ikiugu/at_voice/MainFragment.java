@@ -110,7 +110,6 @@ public class MainFragment extends Fragment {
     }
 
     private void updateAdapter(List<Customer> customers) {
-        System.out.println(customers.size());
         customLeadAdapter.clear();
         customLeadAdapter.addAll(customers);
     }
