@@ -1,6 +1,8 @@
 package com.ikiugu.at_voice;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.ikiugu.at_voice.MainActivity.AGENT_PHONE;
+import static com.ikiugu.at_voice.MainActivity.SHARED_PREFS_NAME;
 
 public class MainFragment extends Fragment {
 
@@ -70,7 +75,17 @@ public class MainFragment extends Fragment {
     }
 
     private void getData() {
-        RetrofitClient.getInstance().getApi().getLeadsByPhoneNumber("")
+        SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(SHARED_PREFS_NAME, 0);
+
+        String phone = sharedPreferences.getString(AGENT_PHONE, "");
+
+        if (TextUtils.isEmpty(phone)) {
+            Toast.makeText(getContext(), "Clear data and try again", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        RetrofitClient.getInstance().getApi().getLeadsByPhoneNumber(phone)
                 .enqueue(new Callback<List<Customer>>() {
                     @Override
                     public void onResponse(Call<List<Customer>> call, Response<List<Customer>> response) {
