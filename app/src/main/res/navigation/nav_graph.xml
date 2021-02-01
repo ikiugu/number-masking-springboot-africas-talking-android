@@ -10,19 +10,16 @@
         android:name="com.ikiugu.at_voice.MainFragment"
         android:label="@string/main_fragment"
         tools:layout="@layout/fragment_main">
-
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            android:id="@+id/action_MainFragment_to_LeadInfoFragment"
             app:destination="@id/LeadInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/LeadInfoFragment"
         android:name="com.ikiugu.at_voice.LeadInfoFragment"
         android:label="@string/lead_info_fragment"
-        tools:layout="@layout/fragment_lead_info">
-
-<!--        <action-->
-<!--            android:id="@+id/action_SecondFragment_to_FirstFragment"-->
-<!--            app:destination="@id/MainFragment" />-->
+        tools:layout="@layout/fragment_lead_info"><argument
+            android:name="Customer"
+            app:argType="com.ikiugu.at_voice.api.model.Customer" />
     </fragment>
 </navigation>

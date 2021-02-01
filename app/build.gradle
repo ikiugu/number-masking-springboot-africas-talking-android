@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -42,4 +43,17 @@ dependencies {
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == "androidx.appcompat") {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion "1.+"
+            }
+        }
+    }
 }
