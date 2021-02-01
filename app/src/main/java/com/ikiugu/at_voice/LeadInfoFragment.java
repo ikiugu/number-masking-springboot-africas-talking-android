@@ -185,14 +185,6 @@ public class LeadInfoFragment extends Fragment implements View.OnClickListener {
     private void callNumber() {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
 
-        Toast.makeText(getContext(), "Your call will be directed through the switchboard - " + SWITCHBOARD_NUMBER, Toast.LENGTH_LONG).show();
-
-        try {
-            Thread.sleep(150);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         try {
             if (Build.VERSION.SDK_INT > 22) {
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -201,7 +193,17 @@ public class LeadInfoFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
             }
-            callIntent.setData(Uri.parse("tel:" + customer.getPhoneNumber()));
+
+
+            Toast.makeText(getContext(), "Your call will be directed through the switchboard - " + SWITCHBOARD_NUMBER, Toast.LENGTH_LONG).show();
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            callIntent.setData(Uri.parse("tel:" + SWITCHBOARD_NUMBER));
             startActivity(callIntent);
         } catch (Exception ex) {
             ex.printStackTrace();
