@@ -23,6 +23,9 @@
         <argument
             android:name="Customer"
             app:argType="com.ikiugu.at_voice.api.model.Customer" />
+        <action
+            android:id="@+id/action_LeadInfoFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
     </fragment>
 
 </navigation>

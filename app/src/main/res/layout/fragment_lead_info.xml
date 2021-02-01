@@ -20,14 +20,14 @@
         android:id="@+id/cust_phoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Customer Name"
+        android:hint="Customer Phone Number"
         android:inputType="phone" />
 
     <EditText
         android:id="@+id/cust_lead_comments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Customer Name"
+        android:hint="Customer Comments"
         android:inputType="textCapSentences" />
 
     <Button

@@ -21,7 +21,7 @@ public interface Api {
     Call<Boolean> createLead(@Body CustomerDto customerDto);
 
     @PATCH("/customer/{phoneNumber}")
-    Call<Boolean> updateCustomer(@Path("phoneNumber") String phoneNumber);
+    Call<Boolean> updateCustomer(@Path("phoneNumber") String phoneNumber, @Body Customer customer);
 
     /* Agent apis*/
 
