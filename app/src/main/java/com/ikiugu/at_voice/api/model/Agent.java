@@ -7,6 +7,10 @@ public class Agent {
     public Agent() {
     }
 
+    public Agent(String name, String phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
     public String getName() {
         return name;
     }

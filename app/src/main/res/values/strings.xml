@@ -3,5 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="main_fragment">Main Fragment</string>
     <string name="lead_info_fragment">Lead Info Fragment</string>
-    <!-- Strings used for fragments for navigation -->
+    <string name="agent_name">Agent Name</string>
+    <string name="agent_phone_number">Agent Phone Number</string>
 </resources>

@@ -12,6 +12,10 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    public static final String AGENT_USERNAME = "AGENT_USERNAME";
+    public static final String AGENT_PHONE = "AGENT_PHONE";
+    public static final String SHARED_PREFS_NAME = "SHARED-PREFS";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

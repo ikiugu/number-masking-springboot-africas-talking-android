@@ -14,12 +14,15 @@
             android:id="@+id/action_MainFragment_to_LeadInfoFragment"
             app:destination="@id/LeadInfoFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/LeadInfoFragment"
         android:name="com.ikiugu.at_voice.LeadInfoFragment"
         android:label="@string/lead_info_fragment"
-        tools:layout="@layout/fragment_lead_info"><argument
+        tools:layout="@layout/fragment_lead_info">
+        <argument
             android:name="Customer"
             app:argType="com.ikiugu.at_voice.api.model.Customer" />
     </fragment>
+
 </navigation>
