@@ -1,8 +1,11 @@
 package com.ikiugu.at_voice;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -26,6 +30,7 @@ import retrofit2.Response;
 
 import static com.ikiugu.at_voice.MainActivity.AGENT_PHONE;
 import static com.ikiugu.at_voice.MainActivity.SHARED_PREFS_NAME;
+import static com.ikiugu.at_voice.MainActivity.SWITCHBOARD_NUMBER;
 
 public class LeadInfoFragment extends Fragment implements View.OnClickListener {
 
@@ -70,13 +75,19 @@ public class LeadInfoFragment extends Fragment implements View.OnClickListener {
     private void setInteractivity(Customer customer) {
         if (hasCustomer) {
             customerName.setText(customer.getName());
+            customerName.setEnabled(false);
+
             customerPhoneNumber.setText(customer.getPhoneNumber());
             customerPhoneNumber.setEnabled(false);
+
             customerComments.setText(customer.getComment());
-            addLead.setText("Edit Lead");
+            customerComments.setEnabled(false);
+
+            addLead.setVisibility(View.GONE);
             callLead.setVisibility(View.VISIBLE);
         } else {
             customerPhoneNumber.setEnabled(true);
+            addLead.setVisibility(View.VISIBLE);
             addLead.setText("Call Lead");
             callLead.setVisibility(View.GONE);
         }
@@ -144,9 +155,7 @@ public class LeadInfoFragment extends Fragment implements View.OnClickListener {
                             if (response.isSuccessful()) {
                                 if (response.body()) {
 
-                                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                    callIntent.setData(Uri.parse("tel:" + customer.getPhoneNumber()));//change the number
-                                    startActivity(callIntent);
+                                    callNumber();
 
                                 } else {
                                     showToast("An error occurred");
@@ -161,6 +170,41 @@ public class LeadInfoFragment extends Fragment implements View.OnClickListener {
                             showToast(t.getMessage());
                         }
                     });
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 101) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                callNumber();
+            }
+        }
+    }
+
+    private void callNumber() {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+
+        Toast.makeText(getContext(), "Your call will be directed through the switchboard - " + SWITCHBOARD_NUMBER, Toast.LENGTH_LONG).show();
+
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (Build.VERSION.SDK_INT > 22) {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{
+                            Manifest.permission.CALL_PHONE}, 101);
+                    return;
+                }
+            }
+            callIntent.setData(Uri.parse("tel:" + customer.getPhoneNumber()));
+            startActivity(callIntent);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
