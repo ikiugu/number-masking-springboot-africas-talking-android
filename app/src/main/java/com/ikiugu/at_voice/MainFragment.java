@@ -6,14 +6,16 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ikiugu.at_voice.adapter.CustomLeadAdapter;
 import com.ikiugu.at_voice.api.RetrofitClient;
 import com.ikiugu.at_voice.api.model.Customer;
@@ -32,7 +34,8 @@ public class MainFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CustomLeadAdapter customLeadAdapter;
-    public SwipeRefreshLayout swipeRefreshLayout;
+    private ProgressBar progressBar;
+    private FloatingActionButton fab;
 
     @Override
     public View onCreateView(
@@ -46,6 +49,17 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        progressBar = view.findViewById(R.id.recycler_progress_bar);
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(MainFragmentDirections.actionMainFragmentToLeadInfoFragment(null));
+            }
+        });
+
         buildListView(view);
 
         getData();
@@ -56,20 +70,6 @@ public class MainFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        swipeRefreshLayout = view.findViewById(R.id.swipe_container);
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getData();
-            }
-        });
-
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-
         customLeadAdapter = new CustomLeadAdapter(new ArrayList<>());
         recyclerView.setAdapter(customLeadAdapter);
     }
@@ -78,6 +78,9 @@ public class MainFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(SHARED_PREFS_NAME, 0);
 
         String phone = sharedPreferences.getString(AGENT_PHONE, "");
+
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
 
         if (TextUtils.isEmpty(phone)) {
             Toast.makeText(getContext(), "Clear data and try again", Toast.LENGTH_SHORT).show();
@@ -89,7 +92,6 @@ public class MainFragment extends Fragment {
                 .enqueue(new Callback<List<Customer>>() {
                     @Override
                     public void onResponse(Call<List<Customer>> call, Response<List<Customer>> response) {
-                        swipeRefreshLayout.setRefreshing(false);
                         if (response.isSuccessful()) {
                             updateAdapter(response.body());
                         } else {
@@ -99,7 +101,6 @@ public class MainFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<List<Customer>> call, Throwable t) {
-                        swipeRefreshLayout.setRefreshing(false);
                         showToastError();
                     }
                 });
@@ -110,6 +111,9 @@ public class MainFragment extends Fragment {
     }
 
     private void updateAdapter(List<Customer> customers) {
+        if (customers.size() == 0) {
+            Toast.makeText(getContext(), "No leads yet", Toast.LENGTH_SHORT).show();
+        }
         customLeadAdapter.clear();
         customLeadAdapter.addAll(customers);
     }

@@ -54,9 +54,6 @@ public class LeadInfoFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /*NavHostFragment.findNavController(LeadInfoFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);*/
-
         customer = LeadInfoFragmentArgs.fromBundle(getArguments()).getCustomer();
         hasCustomer = customer != null;
 
@@ -88,7 +85,6 @@ public class LeadInfoFragment extends Fragment implements View.OnClickListener {
         } else {
             customerPhoneNumber.setEnabled(true);
             addLead.setVisibility(View.VISIBLE);
-            addLead.setText("Call Lead");
             callLead.setVisibility(View.GONE);
         }
     }

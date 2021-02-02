@@ -22,7 +22,8 @@
         tools:layout="@layout/fragment_lead_info">
         <argument
             android:name="Customer"
-            app:argType="com.ikiugu.at_voice.api.model.Customer" />
+            app:argType="com.ikiugu.at_voice.api.model.Customer"
+            app:nullable="true" />
         <action
             android:id="@+id/action_LeadInfoFragment_to_MainFragment"
             app:destination="@id/MainFragment" />

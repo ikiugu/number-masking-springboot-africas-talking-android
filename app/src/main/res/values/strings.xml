@@ -4,5 +4,5 @@
     <string name="main_fragment">Main Fragment</string>
     <string name="lead_info_fragment">Lead Info Fragment</string>
     <string name="agent_name">Agent Name</string>
-    <string name="agent_phone_number">Agent Phone Number</string>
+    <string name="agent_phone_number">Agent Phone Number e.g +254722000000</string>
 </resources>
