@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String AGENT_USERNAME = "AGENT_USERNAME";
     public static final String AGENT_PHONE = "AGENT_PHONE";
     public static final String SHARED_PREFS_NAME = "SHARED-PREFS";
-    public static final String SWITCHBOARD_NUMBER = "0711082519";
+    public static final String SWITCHBOARD_NUMBER = ""; //put number from Africa's talking here
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
